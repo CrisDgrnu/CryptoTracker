@@ -50,10 +50,10 @@ entry.use(checkContent);
 
 entry.put('/:id', (req, res, next) => {
   const { id } = req.params;
-  const data = req.body;
+  const { body } = req;
 
   entryService
-    .update(id, data)
+    .update(id, body)
     .then((entry) => {
       res.status(200).json(entry);
     })
@@ -62,10 +62,10 @@ entry.put('/:id', (req, res, next) => {
 
 // Create new entry
 entry.post('/', (req, res, next) => {
-  const data = req.body;
+  const { body } = req;
 
   entryService
-    .create(data)
+    .create(body)
     .then((entry) => {
       res.status(200).json(entry);
     })

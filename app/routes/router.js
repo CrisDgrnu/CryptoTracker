@@ -2,6 +2,7 @@ const router = require('express').Router();
 const bodyParser = require('body-parser');
 
 const entry = require('./entryRouter');
+const user = require('./userRouter');
 
 // Middelware
 const notFound = require('../middlewares/notFound');
@@ -21,6 +22,9 @@ router.get('/', (req, res) => {
 
 // Entries
 router.use('/entry', entry);
+
+// Users
+router.use('/user', user);
 
 router.use(notFound);
 

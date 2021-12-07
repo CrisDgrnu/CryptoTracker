@@ -1,4 +1,4 @@
-const model = require('../models/entry');
+const model = require('../models/Entry');
 
 const findAll = () => {
   return model
@@ -26,6 +26,7 @@ const create = (data) => {
   return model(data)
     .save()
     .then((entries) => {
+      console.log(entries);
       return entries;
     })
     .catch((error) => {
