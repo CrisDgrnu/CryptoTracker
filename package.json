@@ -1,0 +1,23 @@
+{
+  "name": "cryptotracker",
+  "version": "1.0.0",
+  "description": "App to track the profits of your cryptocurrency portfolio",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon ./app/app.js",
+    "lint": "eslint .",
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.3.0",
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongoose": "^6.0.14"
+  }
+}
