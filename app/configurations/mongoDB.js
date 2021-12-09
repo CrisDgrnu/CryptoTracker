@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 
+const { MONGODB_CONNECTION_URI, MONGODB_CONNECTION_URI_TEST, NODE_ENV } =
+  process.env;
+
 const connectionString =
-  'mongodb+srv://demo:demo123@cluster0.or75w.mongodb.net/cryptoTracker?retryWrites=true&w=majority';
+  NODE_ENV == 'test' ? MONGODB_CONNECTION_URI_TEST : MONGODB_CONNECTION_URI;
 
 mongoose
   .connect(connectionString, {
