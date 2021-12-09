@@ -12,8 +12,10 @@ The main tools used in the project are:
 - ESLint
 - MongoDB Compass
 - Sentry.io (comming soon)
+- Jest and Supertest
 
 ## Things that I have learnt
 The main things that I have learnt building this project are:
 - Creating a CRUD based on layers (Controller/Service/Model/Repository)
 - Creating an user system with secured passwords (Using Bcrypt)
+- Testing e2e using Jest and Supertest
