@@ -8,7 +8,7 @@ const encryptPassword = require('../utils/encryptPassword');
 //       return entries;
 //     })
 //     .catch((error) => {
-//       throw Error(error);
+//       throw error;
 //     });
 // };
 
@@ -19,7 +19,7 @@ const findOneById = (id) => {
       return user;
     })
     .catch((error) => {
-      throw Error(error);
+      throw error;
     });
 };
 
@@ -33,7 +33,7 @@ const create = async (data) => {
       return savedUser;
     })
     .catch((error) => {
-      throw Error(error);
+      throw error;
     });
 };
 
@@ -44,7 +44,7 @@ const create = async (data) => {
 //       return removedEntry;
 //     })
 //     .catch((error) => {
-//       throw Error(error);
+//       throw error;
 //     });
 // };
 
@@ -55,7 +55,7 @@ const create = async (data) => {
 //       return updatedEntry;
 //     })
 //     .catch((error) => {
-//       throw Error(error);
+//       throw error;
 //     });
 // };
 

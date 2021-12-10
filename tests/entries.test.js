@@ -1,54 +1,14 @@
-const mongoose = require('mongoose');
-const supertest = require('supertest');
-const { app, server } = require('../app/app');
-const Entry = require('../app/models/Entry');
+const api = require('./helpers/createApi');
+const closeConnections = require('./helpers/closeConnections');
+const { ethEntry, initialEntries } = require('./helpers/initialData');
 
-const api = supertest(app);
+const {
+  getAllEntries,
+  initializeEntries,
+  removeOneField,
+} = require('./helpers/helpers');
 
-const initialEntries = [
-  {
-    _id: '61ae91c9adb2f72092709f9c',
-    currency: 'AVAX',
-    dateIn: '2021-11-01T00:00:00.000Z',
-    dateOut: '2021-12-01T00:00:00.000Z',
-    priceIn: 125,
-    priceOut: 0,
-    tokensIn: 50,
-    tokensOut: 30,
-    balanceIn: 5000,
-    balanceOut: 10000,
-    performance: 100,
-    gains: 5000,
-    user: '61af5d627f1c8ca294ce05d9',
-    __v: 0,
-  },
-  {
-    _id: '61ae92b57fa4e98f270c6dea',
-    currency: 'BTC',
-    dateIn: '2021-11-01T00:00:00.000Z',
-    dateOut: '2021-12-01T00:00:00.000Z',
-    priceIn: 125,
-    priceOut: 0,
-    tokensIn: 50,
-    tokensOut: 30,
-    balanceIn: 5000,
-    balanceOut: 10000,
-    performance: 100,
-    gains: 5000,
-    user: '61af5d627f1c8ca294ce05d9',
-    __v: 0,
-  },
-];
-
-beforeEach(async () => {
-  await Entry.deleteMany({});
-
-  const entry0 = new Entry(initialEntries[0]);
-  await entry0.save();
-
-  const entry1 = new Entry(initialEntries[1]);
-  await entry1.save();
-});
+beforeEach(async () => await initializeEntries());
 
 test('There are 2 entries', async () => {
   await api
@@ -59,18 +19,53 @@ test('There are 2 entries', async () => {
 
 test('Entries are returned as JSON', async () => {
   const res = await api.get('/entry');
-
   expect(res.body).toHaveLength(initialEntries.length);
 });
 
-test('Entries currency are BTC as AVAX', async () => {
-  const res = await api.get('/entry');
+test('Entries currency have BTC and AVAX', async () => {
+  const { data } = await getAllEntries();
 
-  expect(res.body[0].currency).toBe('AVAX');
-  expect(res.body[1].currency).toBe('BTC');
+  expect(data).toContain('AVAX');
+  expect(data).toContain('BTC');
+});
+
+test('Entry created', async () => {
+  await api
+    .post('/entry')
+    .send(ethEntry)
+    .expect(200)
+    .expect('Content-Type', /application\/json/);
+
+  const { data } = await getAllEntries();
+
+  expect(data.length).toBe(initialEntries.length + 1);
+  expect(data).toContain('ETH');
+});
+
+test('Cannot create an entry without content', async () => {
+  const entry = {};
+
+  await api
+    .post('/entry')
+    .send(entry)
+    .expect(400)
+    .expect('Content-Type', /application\/json/);
+});
+
+test('Cannot create an entry without required fields', async () => {
+  const fields = Object.keys(ethEntry);
+
+  for (field of fields) {
+    const entryClone = removeOneField(ethEntry, field);
+
+    await api
+      .post('/entry')
+      .send(entryClone)
+      .expect(400)
+      .expect('Content-Type', /application\/json/);
+  }
 });
 
 afterAll(() => {
-  mongoose.connection.close();
-  server.close();
+  closeConnections();
 });

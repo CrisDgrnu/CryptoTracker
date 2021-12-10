@@ -7,7 +7,7 @@ const findAll = () => {
       return entries;
     })
     .catch((error) => {
-      throw Error(error);
+      throw error;
     });
 };
 
@@ -18,18 +18,18 @@ const findAllByCurrency = (currency) => {
       return entries;
     })
     .catch((error) => {
-      throw Error(error);
+      throw error;
     });
 };
 
-const create = (data) => {
+const create = (data, next) => {
   return entryRepository
-    .create(data)
+    .create(data, next)
     .then((savedEntry) => {
       return savedEntry;
     })
     .catch((error) => {
-      throw Error(error);
+      throw error;
     });
 };
 
@@ -40,7 +40,7 @@ const remove = (id) => {
       return removedEntry;
     })
     .catch((error) => {
-      throw Error(error);
+      throw error;
     });
 };
 
@@ -51,7 +51,7 @@ const update = (id, data) => {
       return updatedEntry;
     })
     .catch((error) => {
-      throw Error(error);
+      throw error;
     });
 };
 

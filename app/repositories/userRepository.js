@@ -7,7 +7,7 @@ const model = require('../models/User');
 //       return entries;
 //     })
 //     .catch((error) => {
-//       throw Error(error);
+//       throw error;
 //     });
 // };
 
@@ -18,7 +18,7 @@ const findOneById = (id) => {
       return user;
     })
     .catch((error) => {
-      throw Error(error);
+      throw error;
     });
 };
 
@@ -29,7 +29,7 @@ const create = (data) => {
       return entries;
     })
     .catch((error) => {
-      throw Error(error);
+      throw error;
     });
 };
 
@@ -40,7 +40,7 @@ const create = (data) => {
 //       return removedEntry;
 //     })
 //     .catch((error) => {
-//       throw Error(error);
+//       throw error;
 //     });
 // };
 
@@ -51,7 +51,7 @@ const create = (data) => {
 //       return updatedEntry;
 //     })
 //     .catch((error) => {
-//       throw Error(error);
+//       throw error;
 //     });
 // };
 

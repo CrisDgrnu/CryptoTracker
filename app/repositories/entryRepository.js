@@ -1,4 +1,5 @@
 const model = require('../models/Entry');
+const addNameError = require('../utils/addNameError');
 
 const findAll = () => {
   return model
@@ -7,7 +8,7 @@ const findAll = () => {
       return entries;
     })
     .catch((error) => {
-      throw Error(error);
+      throw error;
     });
 };
 
@@ -18,19 +19,18 @@ const findAllByCurrency = (currency) => {
       return entries;
     })
     .catch((error) => {
-      throw Error(error);
+      throw error;
     });
 };
 
-const create = (data) => {
+const create = (data, next) => {
   return model(data)
     .save()
     .then((entries) => {
-      console.log(entries);
       return entries;
     })
     .catch((error) => {
-      throw Error(error);
+      throw error;
     });
 };
 
@@ -41,7 +41,7 @@ const remove = (id) => {
       return removedEntry;
     })
     .catch((error) => {
-      throw Error(error);
+      throw error;
     });
 };
 
@@ -52,7 +52,7 @@ const update = (id, data) => {
       return updatedEntry;
     })
     .catch((error) => {
-      throw Error(error);
+      throw error;
     });
 };
 

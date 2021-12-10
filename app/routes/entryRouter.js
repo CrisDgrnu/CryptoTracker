@@ -65,7 +65,7 @@ entry.post('/', (req, res, next) => {
   const { body } = req;
 
   entryService
-    .create(body)
+    .create(body, next)
     .then((entry) => {
       res.status(200).json(entry);
     })
