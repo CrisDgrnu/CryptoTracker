@@ -10,8 +10,9 @@ const initializeEntries = async () => {
   }
 };
 
-const getAllEntries = async () => {
-  const res = await api.get('/entry');
+const getAllEntries = async (currency = '') => {
+  const route = currency == '' ? '/entry' : `/entry/${currency}`;
+  const res = await api.get(route);
   const data = res.body.map((entry) => entry.currency);
   return { res, data };
 };

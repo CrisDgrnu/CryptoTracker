@@ -29,6 +29,17 @@ test('Entries currency have BTC and AVAX', async () => {
   expect(data).toContain('BTC');
 });
 
+test('Only BTC Entries are returned', async () => {
+  const { data } = await getAllEntries('btc');
+  expect(data).toContain('BTC');
+  expect(data).not.toContain('AVAX');
+});
+
+test('Cannot find ETH Entries', async () => {
+  const { data } = await getAllEntries('ETH');
+  expect(data.length).toBe(0);
+});
+
 test('Entry created', async () => {
   await api
     .post('/entry')
@@ -64,6 +75,10 @@ test('Cannot create an entry without required fields', async () => {
       .expect(400)
       .expect('Content-Type', /application\/json/);
   }
+});
+
+test('Entry deleted', async () => {
+  //TODO
 });
 
 afterAll(() => {
