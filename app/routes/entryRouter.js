@@ -36,10 +36,10 @@ entry.delete('/:id', (req, res, next) => {
   entryService
     .remove(id)
     .then((entry) => {
-      if (entry != null) {
-        res.status(200).json(entry);
-      } else {
+      if (!entry) {
         res.status(404).json({ message: `Entry with id ${id} not found` });
+      } else {
+        res.status(200).json(entry);
       }
     })
     .catch(next);
@@ -55,7 +55,14 @@ entry.put('/:id', (req, res, next) => {
   entryService
     .update(id, body)
     .then((entry) => {
-      res.status(200).json(entry);
+      if (!entry) {
+        res
+          .status(404)
+          .json({ message: `Entry with id ${id} not found` })
+          .end();
+      } else {
+        res.status(200).json(entry);
+      }
     })
     .catch(next);
 });
