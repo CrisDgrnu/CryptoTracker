@@ -1,11 +1,22 @@
 const api = require('./createApi');
 const Entry = require('../../app/models/Entry');
-const { initialEntries } = require('./initialData');
+const User = require('../../app/models/User');
 
-const initializeEntries = async () => {
+const encryptPassword = require('../../app/utils/encryptPassword');
+const { user, initialEntries } = require('./initialData');
+
+const createUser = async () => {
+  await User.deleteMany({});
+  const { password } = user;
+  user.passwordHash = await encryptPassword(password);
+  return await User(user).save();
+};
+
+const initializeEntries = async (userId) => {
   await Entry.deleteMany({});
 
   for (data of initialEntries) {
+    data.user = userId;
     await new Entry(data).save();
   }
 };
@@ -23,8 +34,16 @@ const removeOneField = (entry, field) => {
   return entryClone;
 };
 
+const getUserById = async (id) => {
+  const route = `/user/${id}`;
+  const res = await api.get(route);
+  return res.body;
+};
+
 module.exports = {
+  createUser,
   initializeEntries,
   getAllEntries,
   removeOneField,
+  getUserById,
 };

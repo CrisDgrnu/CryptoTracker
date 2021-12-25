@@ -1,14 +1,20 @@
 const api = require('./helpers/createApi');
 const closeConnections = require('./helpers/closeConnections');
-const { ethEntry, initialEntries } = require('./helpers/initialData');
+const { initialEntries, ethEntry } = require('./helpers/initialData');
 
 const {
+  createUser,
   getAllEntries,
   initializeEntries,
   removeOneField,
+  getUserById,
 } = require('./helpers/helpers');
 
-beforeEach(async () => await initializeEntries());
+beforeEach(async () => {
+  const user = await createUser();
+  await initializeEntries(user._id);
+  ethEntry.user = user._id;
+});
 
 describe('GET methods', () => {
   test('There are 2 entries', async () => {
@@ -47,7 +53,7 @@ describe('POST methods', () => {
     await api
       .post('/entry')
       .send(ethEntry)
-      .expect(200)
+      .expect(201)
       .expect('Content-Type', /application\/json/);
 
     const { data } = await getAllEntries();
@@ -79,6 +85,17 @@ describe('POST methods', () => {
         .expect('Content-Type', /application\/json/);
     }
   });
+
+  test('Check that user owns the entry', async () => {
+    await api
+      .post('/entry')
+      .send(ethEntry)
+      .expect(201)
+      .expect('Content-Type', /application\/json/);
+
+    const findedUser = await getUserById(ethEntry.user);
+    expect(findedUser.entries).toHaveLength(1);
+  });
 });
 
 describe('DELETE methods', () => {
@@ -86,7 +103,7 @@ describe('DELETE methods', () => {
     const res = await api
       .post('/entry')
       .send(ethEntry)
-      .expect(200)
+      .expect(201)
       .expect('Content-Type', /application\/json/);
 
     await api.delete(`/entry/${res.body._id}`).expect(200);
@@ -106,7 +123,7 @@ describe('PUT methods', () => {
     const res = await api
       .post('/entry')
       .send(ethEntry)
-      .expect(200)
+      .expect(201)
       .expect('Content-Type', /application\/json/);
 
     let updatedData = { ...res.body };
@@ -124,7 +141,7 @@ describe('PUT methods', () => {
     const res = await api
       .post('/entry')
       .send(ethEntry)
-      .expect(200)
+      .expect(201)
       .expect('Content-Type', /application\/json/);
 
     const updatedRes = await api

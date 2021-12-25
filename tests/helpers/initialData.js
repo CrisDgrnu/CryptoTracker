@@ -1,3 +1,9 @@
+const user = {
+  username: 'cfres_',
+  name: 'Cristian',
+  password: 'pass',
+};
+
 const initialEntries = [
   {
     _id: '61ae91c9adb2f72092709f9c',
@@ -48,4 +54,4 @@ const ethEntry = {
   user: '61af5d627f1c8ca294ce05d9',
 };
 
-module.exports = { initialEntries, ethEntry };
+module.exports = { user, initialEntries, ethEntry };

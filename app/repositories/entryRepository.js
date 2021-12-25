@@ -1,59 +1,47 @@
 const model = require('../models/Entry');
-const addNameError = require('../utils/addNameError');
 
-const findAll = () => {
-  return model
-    .find({})
-    .then((entries) => {
-      return entries;
-    })
-    .catch((error) => {
-      throw error;
+const findAll = async () => {
+  try {
+    return await model.find({}).populate('user', {
+      username: 1,
     });
+  } catch (error) {
+    throw error;
+  }
 };
 
-const findAllByCurrency = (currency) => {
-  return model
-    .find({ currency: currency })
-    .then((entries) => {
-      return entries;
-    })
-    .catch((error) => {
-      throw error;
+const findAllByCurrency = async (currency) => {
+  try {
+    return await model.find({ currency: currency }).populate('user', {
+      username: 1,
     });
+  } catch (error) {
+    throw error;
+  }
 };
 
-const create = (data, next) => {
-  return model(data)
-    .save()
-    .then((entries) => {
-      return entries;
-    })
-    .catch((error) => {
-      throw error;
-    });
+const create = async (data) => {
+  try {
+    return await model(data).save();
+  } catch (error) {
+    throw error;
+  }
 };
 
-const remove = (id) => {
-  return model
-    .findByIdAndRemove(id)
-    .then((removedEntry) => {
-      return removedEntry;
-    })
-    .catch((error) => {
-      throw error;
-    });
+const remove = async (id) => {
+  try {
+    return await model.findByIdAndRemove(id);
+  } catch (error) {
+    throw error;
+  }
 };
 
-const update = (id, data) => {
-  return model
-    .findByIdAndUpdate(id, data, { new: true })
-    .then((updatedEntry) => {
-      return updatedEntry;
-    })
-    .catch((error) => {
-      throw error;
-    });
+const update = async (id, data) => {
+  try {
+    return await model.findByIdAndUpdate(id, data, { new: true });
+  } catch (error) {
+    throw error;
+  }
 };
 
 module.exports = {

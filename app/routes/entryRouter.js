@@ -74,7 +74,7 @@ entry.post('/', (req, res, next) => {
   entryService
     .create(body, next)
     .then((entry) => {
-      res.status(200).json(entry);
+      res.status(201).json(entry);
     })
     .catch(next);
 });

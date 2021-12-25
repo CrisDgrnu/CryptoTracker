@@ -79,7 +79,7 @@ user.post('/', (req, res, next) => {
   userService
     .create(body)
     .then((user) => {
-      res.status(200).json(user);
+      res.status(201).json(user);
     })
     .catch(next);
 });
