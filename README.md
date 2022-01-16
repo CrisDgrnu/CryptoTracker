@@ -20,3 +20,4 @@ The main things that I have learnt building this project are:
 - Creating an user system with secured passwords (Using Bcrypt)
 - Testing e2e using Jest and Supertest
 - Creating relations in NoSQL databases
+- Login and authentication to create entities with JSON Web Tokens based on Barier scheme
