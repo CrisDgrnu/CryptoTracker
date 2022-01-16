@@ -2,10 +2,10 @@ const entry = require('express').Router();
 
 // Services
 const entryService = require('../services/entryService');
-const loginService = require('../services/loginService');
 
 // Middleware
 const checkContent = require('../middlewares/checkContent');
+const checkToken = require('../middlewares/checkToken');
 const error = require('../middlewares/handleError');
 
 // Find all
@@ -31,7 +31,7 @@ entry.get('/:currency', (req, res, next) => {
 });
 
 // Delete an entry by id
-entry.delete('/:id', (req, res, next) => {
+entry.delete('/:id', checkToken, (req, res, next) => {
   const { id } = req.params;
 
   entryService
@@ -49,7 +49,7 @@ entry.delete('/:id', (req, res, next) => {
 // Check if body has content
 entry.use(checkContent);
 
-entry.put('/:id', (req, res, next) => {
+entry.put('/:id', checkToken, (req, res, next) => {
   const { id } = req.params;
   const { body } = req;
 
@@ -69,15 +69,8 @@ entry.put('/:id', (req, res, next) => {
 });
 
 // Create new entry
-entry.post('/', (req, res, next) => {
+entry.post('/', checkToken, (req, res, next) => {
   const { body } = req;
-  const authorization = req.get('authorization');
-
-  const verified = loginService.verify(authorization);
-
-  if (!verified) {
-    next(error);
-  }
 
   entryService
     .create(body, next)

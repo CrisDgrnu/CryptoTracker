@@ -11,6 +11,9 @@ const ERROR_CATALOG = {
   JsonWebTokenError: (res) => {
     res.status(401).json({ error: 'missing or invalid token' });
   },
+  TokenExpirerError: (res) => {
+    res.status(401).json({ error: 'token expired' });
+  },
   DefaultError: (res) => {
     res.status(500).end();
   },
