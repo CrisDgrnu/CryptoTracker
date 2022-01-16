@@ -76,10 +76,9 @@ entry.post('/', (req, res, next) => {
   const verified = loginService.verify(authorization);
 
   if (!verified) {
-    return res.status(401).json({
-      error: 'invalid or missing token',
-    });
+    next(error);
   }
+
   entryService
     .create(body, next)
     .then((entry) => {

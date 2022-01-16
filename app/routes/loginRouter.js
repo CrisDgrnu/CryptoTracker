@@ -26,4 +26,6 @@ login.post('/', (req, res, next) => {
     .catch(next);
 });
 
+login.use(error);
+
 module.exports = login;

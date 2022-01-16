@@ -9,8 +9,7 @@ const verifyToken = (token) => {
   try {
     return jwt.verify(token, process.env.SECRET);
   } catch (error) {
-    console.error(error);
-    return null;
+    throw error;
   }
 };
 

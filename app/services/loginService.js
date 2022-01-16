@@ -22,18 +22,22 @@ const login = async (username, password) => {
 };
 
 const verify = (authorization) => {
-  let token = null;
-  if (authorization && authorization.toLowerCase().startsWith('bearer')) {
-    token = authorization.split(' ')[1];
+  try {
+    let token = null;
+    if (authorization && authorization.toLowerCase().startsWith('bearer')) {
+      token = authorization.split(' ')[1];
+    }
+
+    if (!token) return false;
+
+    const decodedToken = jwtUtils.verifyToken(token);
+
+    if (!decodedToken) return false;
+
+    return true;
+  } catch (error) {
+    throw error;
   }
-
-  if (!token) return false;
-
-  const decodedToken = jwtUtils.verifyToken(token);
-
-  if (!decodedToken) return false;
-
-  return true;
 };
 
 module.exports = {
