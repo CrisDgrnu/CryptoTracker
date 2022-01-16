@@ -19,3 +19,4 @@ The main things that I have learnt building this project are:
 - Creating a CRUD based on layers (Controller/Service/Model/Repository)
 - Creating an user system with secured passwords (Using Bcrypt)
 - Testing e2e using Jest and Supertest
+- Creating relations in NoSQL databases
