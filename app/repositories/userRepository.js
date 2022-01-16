@@ -10,6 +10,16 @@ const findOneById = async (id) => {
   }
 };
 
+const findOneByUserName = async (username) => {
+  try {
+    return await model.findOne({ username: username }).populate('entries', {
+      user: 0,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
 const create = async (data) => {
   try {
     return await model(data).save();
@@ -28,6 +38,7 @@ const update = async (id, data) => {
 
 module.exports = {
   findOneById,
+  findOneByUserName,
   create,
   update,
 };

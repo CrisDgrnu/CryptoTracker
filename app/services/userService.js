@@ -1,5 +1,5 @@
 const userRepository = require('../repositories/userRepository');
-const encryptPassword = require('../utils/encryptPassword');
+const bcryptUtils = require('../utils/bcryptUtils');
 
 const findOneById = async (id) => {
   try {
@@ -11,8 +11,16 @@ const findOneById = async (id) => {
 
 const create = async (data) => {
   try {
-    const { password } = data;
-    data.passwordHash = await encryptPassword(password);
+    const { username, password } = data;
+
+    const user = await userRepository.findOneByUserName(username);
+
+    // If user exists dont create another with the same username
+    if (user) {
+      return null;
+    }
+
+    data.passwordHash = await bcryptUtils.hashPassword(password);
     return await userRepository.create(data);
   } catch (error) {
     throw error;

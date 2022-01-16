@@ -4,6 +4,7 @@ const { user, initialEntries, ethEntry } = require('./helpers/initialData');
 
 const {
   createUser,
+  deleteUsers,
   getAllEntries,
   initializeEntries,
   removeOneField,
@@ -24,11 +25,23 @@ describe('GET methods', () => {
 
 describe('POST methods', () => {
   test('User created', async () => {
+    deleteUsers();
     await api
       .post('/user')
       .send(user)
       .expect(201)
       .expect('Content-Type', /application\/json/);
+  });
+
+  test('User already exists', async () => {
+    deleteUsers();
+    await api
+      .post('/user')
+      .send(user)
+      .expect(201)
+      .expect('Content-Type', /application\/json/);
+
+    await api.post('/user').send(user).expect(409);
   });
 });
 

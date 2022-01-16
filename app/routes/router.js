@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 
 const entry = require('./entryRouter');
 const user = require('./userRouter');
+const login = require('./loginRouter');
 
 // Middelware
 const notFound = require('../middlewares/notFound');
@@ -19,6 +20,9 @@ router.use(
 router.get('/', (req, res) => {
   res.status(200).json({ message: 'Connected!' });
 });
+
+// Login
+router.use('/login', login);
 
 // Entries
 router.use('/entry', entry);

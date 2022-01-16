@@ -72,14 +72,20 @@ user.use(checkContent);
 //     .catch(next);
 // });
 
-// Create new entry
+// Create new user
 user.post('/', (req, res, next) => {
   const { body } = req;
 
   userService
     .create(body)
     .then((user) => {
-      res.status(201).json(user);
+      if (user) {
+        res.status(201).json(user);
+      } else {
+        res.status(409).json({
+          error: 'this username is already in use',
+        });
+      }
     })
     .catch(next);
 });

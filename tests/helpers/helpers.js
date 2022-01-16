@@ -2,14 +2,18 @@ const api = require('./createApi');
 const Entry = require('../../app/models/Entry');
 const User = require('../../app/models/User');
 
-const encryptPassword = require('../../app/utils/encryptPassword');
+const bcryptUtils = require('../../app/utils/encryptPassword');
 const { user, initialEntries } = require('./initialData');
 
 const createUser = async () => {
   await User.deleteMany({});
   const { password } = user;
-  user.passwordHash = await encryptPassword(password);
+  user.passwordHash = await bcryptUtils.hashPassword(password);
   return await User(user).save();
+};
+
+const deleteUsers = async () => {
+  return await User.deleteMany({});
 };
 
 const initializeEntries = async (userId) => {
@@ -42,6 +46,7 @@ const getUserById = async (id) => {
 
 module.exports = {
   createUser,
+  deleteUsers,
   initializeEntries,
   getAllEntries,
   removeOneField,

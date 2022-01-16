@@ -2,6 +2,7 @@ const entry = require('express').Router();
 
 // Services
 const entryService = require('../services/entryService');
+const loginService = require('../services/loginService');
 
 // Middleware
 const checkContent = require('../middlewares/checkContent');
@@ -70,7 +71,15 @@ entry.put('/:id', (req, res, next) => {
 // Create new entry
 entry.post('/', (req, res, next) => {
   const { body } = req;
+  const authorization = req.get('authorization');
 
+  const verified = loginService.verify(authorization);
+
+  if (!verified) {
+    return res.status(401).json({
+      error: 'invalid or missing token',
+    });
+  }
   entryService
     .create(body, next)
     .then((entry) => {
