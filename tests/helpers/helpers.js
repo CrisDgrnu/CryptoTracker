@@ -2,7 +2,7 @@ const api = require('./createApi');
 const Entry = require('../../app/models/Entry');
 const User = require('../../app/models/User');
 
-const bcryptUtils = require('../../app/utils/encryptPassword');
+const bcryptUtils = require('../../app/utils/bcryptUtils');
 const { user, initialEntries } = require('./initialData');
 
 const createUser = async () => {

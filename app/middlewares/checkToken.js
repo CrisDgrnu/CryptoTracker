@@ -1,12 +1,16 @@
 const loginService = require('../services/loginService');
 
 module.exports = (req, res, next) => {
-  const authorization = req.get('authorization');
-  const verified = loginService.verify(authorization);
+  try {
+    const authorization = req.get('authorization');
+    const verified = loginService.verify(authorization);
 
-  if (!verified) {
+    if (!verified) {
+      return res.status(401).json({ error: 'missing or invalid token' });
+    }
+
+    next();
+  } catch (error) {
     next(error);
   }
-
-  next();
 };
